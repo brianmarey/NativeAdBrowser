@@ -1,10 +1,9 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>TwitterAutomation : Home</title>
+    <title>Native Ad Surfer : Home</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    
     <link rel="shortcut icon" href="/images/favicon.ico" />
     
      <!-- Google Fonts -->
@@ -20,51 +19,24 @@
         
 
     <div id="main-wrapper">
-        <!--[if lt IE 7]>
-            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
-        <![endif]-->
-           	
         <div class="dark-grey">
             <div class="container">
             	<div class="row">
                 	<div class="span12 text-center">
                         <div class="page-header">
-
-
-							<h1>Twitter Automation</h1>
+							<h1>Native Ad Surfer</h1>
 						</div>
-					<div class="service-box">
-                    <div class="row">
-                    	<div class="span4">
-                            <div class="service-icon-wrap">
-                                <div class="big-icon-wrap pull-left img-circle" style="cursor:pointer" onclick="document.location='./autofollow'">
-                                    <i class="fa fa-twitter fa-2x"></i>
-                                </div>
-                                <div class="service-txt">
-                                	<h3><a href="./autofollow">Autofollow</a></h3>
-                                	<p>Automatically follows users based on keywords.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="span4">
-                            <div class="service-icon-wrap">
-                                <div class="big-icon-wrap pull-left img-circle" style="cursor:pointer" onclick="document.location='./autounfollow'">
-                                    <i class="fa fa-twitter fa-2x"></i>
-                                </div>
-                                <div class="service-txt">
-                                	<h3><a href="./autounfollow">AutoUnfollow</a></h3>
-                                	<p>Automatically unfollows users who aren't following you back.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="span4">&nbsp;</div>
-                	</div>
 					</div>
 				</div>
-			</div>
+<div th:each="data, row: ${nativeAds}" th:with="numList=${ {3,2,1,0} }" th:if="${row.count % 4 == 0 or row.last}" class="row">
+    <!-- Show all rows except the leftovers -->
+    <div class="span3" th:each="num : ${numList}" th:with="dataIndex=(${row.index} - ${num})" th:if="${row.count % 4 == 0}" th:utext="${nativeAds[dataIndex].headline}">data</div>
+    <!-- Show the remainders (eg, if there are 9 items, the last row will have one item in it) -->
+    <div class="span3" th:each="num : ${numList}" th:with="dataIndex=(${row.index} - ${num})" th:if="${row.last} and ${row.count % 4 != 0} and ${num &lt; row.count % 4}" th:utext="${nativeAds[dataIndex].headline}">data</div>
+</div>
 		</div>
 	</div>
-	</div>
+</div>
 
 
 <div th:include="fragments/footer :: footer">...</div>
