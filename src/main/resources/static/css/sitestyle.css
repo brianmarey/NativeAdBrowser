@@ -1,4 +1,15 @@
-	a .linkText {
+	a.linkText {
+		font-weight:bold;
+		font-size:12pt;
+	}
+	
+	a.paginationText {
+		font-weight:bold;
+		font-size:14pt;
+	}
+
+	.showingResultsText {
+		font-size:12pt;
 		font-weight:bold;
 	}
 
