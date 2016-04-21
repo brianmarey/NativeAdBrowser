@@ -10,7 +10,7 @@
     <link href='http://fonts.googleapis.com/css?family=Raleway:400,500,600,700,300' rel='stylesheet' type='text/css'/>
     <!-- Base Stylesheet -->
     <link rel="stylesheet" href="/css/base.css"/>
-    <link rel="stylesheet" href="/css/sitestyle.css"/>
+    <link rel="stylesheet" href="./css/sitestyle.css"/>
     <link rel="stylesheet" class="alt" href="/css/theme-blue.css"/>
     
 </head>
@@ -18,26 +18,47 @@
 <div th:include="fragments/header :: header">...</div>
         
 
+
     <div id="main-wrapper">
         <div class="dark-grey">
             <div class="container">
             	<div class="row">
                 	<div class="span12 text-center">
                         <div class="page-header">
-							<h1>Native Ad Surfer</h1>
+							<h1>Native Ad Browser</h1>
 						</div>
+					<div class="service-box">
+                    <div class="row">
+                    	<div class="span4">
+                            <div class="service-icon-wrap">
+                                <div class="big-icon-wrap pull-left img-circle" style="cursor:pointer" onclick="document.location='./latest'">
+                                    <i class="fa fa-twitter fa-2x"></i>
+                                </div>
+                                <div class="service-txt">
+                                	<h3><a href="./latest">Latest Native Ads</a></h3>
+                                	<p>Check out the native ads that are running right now.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="service-icon-wrap">
+                                <div class="big-icon-wrap pull-left img-circle" style="cursor:pointer" onclick="document.location='./hottest'">
+                                    <i class="fa fa-twitter fa-2x"></i>
+                                </div>
+                                <div class="service-txt">
+                                	<h3><a href="./autounfollow">Hottest Native Ads</a></h3>
+                                	<p>Check out the native ads that have been running for a while.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">&nbsp;</div>
+                	</div>
 					</div>
 				</div>
-<div th:each="data, row: ${nativeAds}" th:with="numList=${ {3,2,1,0} }" th:if="${row.count % 4 == 0 or row.last}" class="row">
-    <!-- Show all rows except the leftovers -->
-    <div class="span3" th:each="num : ${numList}" th:with="dataIndex=(${row.index} - ${num})" th:if="${row.count % 4 == 0}" th:utext="${nativeAds[dataIndex].headline}">data</div>
-    <!-- Show the remainders (eg, if there are 9 items, the last row will have one item in it) -->
-    <div class="span3" th:each="num : ${numList}" th:with="dataIndex=(${row.index} - ${num})" th:if="${row.last} and ${row.count % 4 != 0} and ${num &lt; row.count % 4}" th:utext="${nativeAds[dataIndex].headline}">data</div>
-</div>
+			</div>
 		</div>
 	</div>
-</div>
-
+	</div>
 
 <div th:include="fragments/footer :: footer">...</div>
 </body>
