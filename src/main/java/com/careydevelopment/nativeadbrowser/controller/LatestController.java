@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.careydevelopment.nativeadbrowser.jpa.entity.DomainAd;
 import com.careydevelopment.nativeadbrowser.jpa.entity.NativeAd;
 import com.careydevelopment.nativeadbrowser.jpa.repository.DomainAdRepository;
 import com.careydevelopment.nativeadbrowser.util.Constants;
@@ -33,23 +34,22 @@ public class LatestController implements Constants {
     	int page = getPage(pageNum);
     	
     	Pageable pageable = new PageRequest(page,RESULTS_PER_PAGE);
-    	Page<NativeAd> ads = domainAdRepository.findNativeAds(pageable);
+    	Page<DomainAd> ads = domainAdRepository.findNativeAds(pageable);
     	
     	List<NativeAd> nads = new ArrayList<NativeAd>();
-    	for (NativeAd ad : ads) {
-    		nads.add(ad);
+    	for (DomainAd ad : ads) {
+    		nads.add(ad.getNativeAd());
     	}
     	
     	setPagination(ads,model,page);
     	
     	model.addAttribute("nativeAds",nads);
     	
-    	
         return "latest";
     }
     
     
-    private void setPagination (Page<NativeAd> ads, Model model, int page) {
+    private void setPagination (Page<DomainAd> ads, Model model, int page) {
     	model.addAttribute("isFirst", ads.isFirst());
     	model.addAttribute("isLast", ads.isLast());
     	
@@ -65,7 +65,7 @@ public class LatestController implements Constants {
     }
     
     
-    private String getShowingResults(Page<NativeAd> ads,int page) {
+    private String getShowingResults(Page<DomainAd> ads,int page) {
     	StringBuilder builder = new StringBuilder();
     	
     	int start = (page * RESULTS_PER_PAGE) + 1;

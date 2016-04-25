@@ -9,6 +9,6 @@ import com.careydevelopment.nativeadbrowser.jpa.entity.NativeAd;
 
 public interface DomainAdRepository extends BaseRepository<DomainAd,Long>{
 
-    @Query("SELECT da.nativeAd FROM DomainAd da order by da.lastSeen desc")
-    Page<NativeAd> findNativeAds(Pageable page);
+    @Query("SELECT da FROM DomainAd da order by da.lastSeen desc")
+    Page<DomainAd> findNativeAds(Pageable page);
 }
