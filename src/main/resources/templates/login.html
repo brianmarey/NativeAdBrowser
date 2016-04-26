@@ -1,0 +1,62 @@
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Twitter Automation : Login</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link href="/css/sitestyle.css" rel="stylesheet"/>
+    <link rel="shortcut icon" href="/images/favicon.ico" />
+
+    <!-- Google Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,500,600,700,300' rel='stylesheet' type='text/css'/>
+    <!-- Base Stylesheet -->
+    <link rel="stylesheet" href="/css/base.css"/>
+    <link rel="stylesheet" class="alt" href="/css/theme-blue.css"/>
+    
+  </head>
+  <body class="wide">
+  <div th:include="fragments/header :: header">...</div>
+
+   <div id="main-wrapper">
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+           	
+        <div class="dark-grey">
+            <div class="container">
+            	<div class="row">
+                	<div class="span12">
+                        <div>
+						    <div>
+						        <form name="f" th:action="@{/login}" method="post">               
+						                <div th:if="${param.error}" class="ui-widget" style="margin-bottom:50px">
+											<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+												<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+												<strong>Problem:</strong> Invalid username or password.</p>
+											</div>
+										</div>
+						                
+						                <div th:if="${param.logout}" class="alert alert-success"> 
+						                    You have been logged out.
+						                </div>
+						                <div class="ui-widget form-section">
+						                <label for="username">Username:</label>
+						                <input type="text" id="username" name="username" class="span3"/>
+						                </div>
+						                <div class="ui-widget form-section">        
+						                <label for="password">Password:</label>
+						                <input type="password" id="password" name="password" class="span3"/>    
+						                </div>
+						                <div class="form-section">
+						                    <button type="submit" class="btn">Log in</button>
+						                </div>
+						        </form>
+						    </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>    
+    <div th:include="fragments/footer :: footer">...</div>
+  </body>
+</html>

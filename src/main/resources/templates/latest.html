@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Native Ad Surfer : Latest</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="shortcut icon" href="/images/favicon.ico" />
+    
+     <!-- Google Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,500,600,700,300' rel='stylesheet' type='text/css'/>
+    <!-- Base Stylesheet -->
+    <link rel="stylesheet" href="/css/base.css"/>
+    <link rel="stylesheet" href="./css/sitestyle.css"/>
+    <link rel="stylesheet" class="alt" href="/css/theme-blue.css"/>
+    
+</head>
+<body class="wide">
+<div th:include="fragments/header :: header">...</div>
+        
+
+    <div id="main-wrapper">
+        <div class="dark-grey">
+            <div class="container">
+				 <div class="row">
+	                <div class="span12 text-center">
+	                    <div class="shadow-wrapper" style="background:none;padding-bottom:0px">                    	
+	                        <h2><span>– Latest –</span> Ads</h2>
+	                    </div>
+	                </div>
+				</div>
+				<div class="row" style="margin-bottom:40px">
+					<div class="span4 offset4 text-center">
+						<span th:text="${showingResults}" class="showingResultsText"></span>
+					</div>
+				</div>
+				<div th:each="data, row: ${nativeAds}" th:with="numList=${ {2,1,0} }" th:if="${row.count % 3 == 0 or row.last}" style="margin-bottom:60px;text-align:center" class="row">
+				    <div class="span4" th:each="num : ${numList}" th:with="dataIndex=(${row.index} - ${num})" th:if="${row.count % 3 == 0}">
+				    	<img style="margin-bottom:10px" th:src="${nativeAds[dataIndex].imageUrl}"/><br/>
+				    	<a th:utext="${nativeAds[dataIndex].headline}" th:href="${nativeAds[dataIndex].url}" class="linkText">...</a><br/>
+				    	<span style="fontSize:10pt" th:utext="${nativeAds[dataIndex].adCompany.name}"></span>
+				    </div>
+				    <div class="span4" th:each="num : ${numList}" th:with="dataIndex=(${row.index} - ${num})" th:if="${row.last} and ${row.count % 3 != 0} and ${num &lt; row.count % 3}">
+				    	<img style="margin-bottom:10px" th:src="${nativeAds[dataIndex].imageUrl}"/><br/>
+				    	<a th:utext="${nativeAds[dataIndex].headline}" th:href="${nativeAds[dataIndex].url}" class="linkText"></a><br/>
+				    	<span style="fontSize:10pt" th:utext="${nativeAds[dataIndex].adCompany.name}"></span>
+				    </div>
+				</div>
+				<div class="row">
+					<div class="span2 offset4" style="text-align:left"><span th:if="${isFirst} == false"><a th:href="@{/latest(pageNum=${previousPageNum})}" class="paginationText"><i class="fa fa-arrow-left" aria-hidden="true"></i> Previous</a></span></div>
+					<div class="span2" style="text-align:right"><span th:if="${isLast} == false"><a th:href="@{/latest(pageNum=${nextPageNum})}" class="paginationText">Next <i class="fa fa-arrow-right" aria-hidden="true"></i></a></span></div>
+				</div>
+		</div>
+	</div>
+</div>
+
+
+<div th:include="fragments/footer :: footer">...</div>
+</body>
+
+</html>
