@@ -1,61 +1,69 @@
 package com.careydevelopment.nativeadbrowser.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.careydevelopment.nativeadbrowser.jpa.entity.DomainAd;
-import com.careydevelopment.nativeadbrowser.jpa.entity.NativeAd;
 import com.careydevelopment.nativeadbrowser.jpa.repository.DomainAdRepository;
 import com.careydevelopment.nativeadbrowser.util.Constants;
 
 @Controller
-public class LatestController implements Constants {
+public class HottestController implements Constants {
 
 	@Autowired
 	DomainAdRepository domainAdRepository;
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(LatestController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(HottestController.class);
 	
-    @RequestMapping("/latest")
-    public String latest(Model model, @RequestParam(value="pageNum", required=false) String pageNum) {    	    
+	private static final int MAX_PAGE_NUM = 9;
+	private static final int RESULTS_PER_PAGE = 12;
+	
+    @RequestMapping("/hottest")
+    public String hottest(Model model, @RequestParam(value="pageNum", required=false) String pageNum) {    	    
     	int page = getPage(pageNum);
     	
-    	Pageable pageable = new PageRequest(page,RESULTS_PER_PAGE);
-    	Page<DomainAd> ads = domainAdRepository.findNativeAds(pageable);
+    	List<DomainAd> ads = domainAdRepository.findTop120NativeAds();
     	
+    	Collections.sort(ads,new Comparator<DomainAd>() {
+    	    @Override
+    	    public int compare(DomainAd a, DomainAd b) {
+    	        return b.getDaysRunning().compareTo(a.getDaysRunning());
+    	    }
+    	});
+
     	List<DomainAd> nads = new ArrayList<DomainAd>();
-    	for (DomainAd ad : ads) {
-    		nads.add(ad);
+    	for (int i=page * RESULTS_PER_PAGE;i<(page*RESULTS_PER_PAGE) + RESULTS_PER_PAGE;i++) {
+    		nads.add(ads.get(i));
     	}
     	
     	setPagination(ads,model,page);
     	
     	model.addAttribute("nativeAds",nads);
     	
-        return "latest";
+        return "hottest";
     }
     
     
-    private void setPagination (Page<DomainAd> ads, Model model, int page) {
-    	model.addAttribute("isFirst", ads.isFirst());
-    	model.addAttribute("isLast", ads.isLast());
+    private void setPagination (List<DomainAd> ads, Model model, int page) {
+    	model.addAttribute("isFirst", (page == 0));
+    	model.addAttribute("isLast", (page == 9));
     	
-    	if (!ads.isLast()) {
+    	if (page<9) {
     		model.addAttribute("nextPageNum", page+1);
     	}
     	
-    	if (!ads.isFirst()) {
+    	if (page==0) {
     		model.addAttribute("previousPageNum", page-1);
     	}	
     	
@@ -63,11 +71,11 @@ public class LatestController implements Constants {
     }
     
     
-    private String getShowingResults(Page<DomainAd> ads,int page) {
+    private String getShowingResults(List<DomainAd> ads,int page) {
     	StringBuilder builder = new StringBuilder();
     	
     	int start = (page * RESULTS_PER_PAGE) + 1;
-    	int end = start + ads.getSize() - 1;
+    	int end = start + 12 - 1;
     	
     	builder.append("Showing Results ");    	    	
     	builder.append(start);

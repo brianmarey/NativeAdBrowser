@@ -30,7 +30,7 @@
 				 <div class="row">
 	                <div class="span12 text-center">
 	                    <div class="shadow-wrapper" style="background:none;padding-bottom:0px">                    	
-	                        <h2><span>– Latest –</span> Ads</h2>
+	                        <h2><span>– Hottest –</span> Ads</h2>
 	                    </div>
 	                </div>
 				</div>
@@ -44,13 +44,13 @@
 				    	<img style="margin-bottom:10px" th:src="${nativeAds[dataIndex].nativeAd.imageUrl}"/><br/>
 				    	<a th:utext="${nativeAds[dataIndex].nativeAd.headline}" th:href="${nativeAds[dataIndex].nativeAd.url}" class="linkText">...</a><br/>
 				    	<span style="fontSize:10pt" th:utext="${nativeAds[dataIndex].nativeAd.adCompany.name}"></span><br/>
-				    	<span style="fontSize:10pt" th:utext="${'Last Seen: ' + nativeAds[dataIndex].lastSeenStr}"></span>
+				    	<span style="fontSize:10pt" th:utext="${'Running for ' + nativeAds[dataIndex].daysRunning} + ' days'"></span>
 				    </div>
 				    <div class="span4 ad-cell" th:each="num : ${numList}" th:with="dataIndex=(${row.index} - ${num})" th:if="${row.last} and ${row.count % 3 != 0} and ${num &lt; row.count % 3}">
 				    	<img style="margin-bottom:10px" th:src="${nativeAds[dataIndex].nativeAd.imageUrl}"/><br/>
 				    	<a th:utext="${nativeAds[dataIndex].nativeAd.headline}" th:href="${nativeAds[dataIndex].nativeAd.url}" class="linkText"></a><br/>
 				    	<span style="fontSize:10pt" th:utext="${nativeAds[dataIndex].nativeAd.adCompany.name}"></span><br/>
-				    	<span style="fontSize:10pt" th:utext="${'Last Seen: ' + nativeAds[dataIndex].lastSeenStr}"></span>
+				    	<span style="fontSize:10pt" th:utext="${'Running for ' + nativeAds[dataIndex].daysRunning} + ' days'"></span>
 				    </div>
 				</div>
 				<div class="row">

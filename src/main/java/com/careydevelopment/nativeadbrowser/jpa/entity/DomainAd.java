@@ -1,5 +1,7 @@
 package com.careydevelopment.nativeadbrowser.jpa.entity;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -14,6 +16,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "domain_ad")
 public class DomainAd {
+	private static final long MILLIS_PER_DAY = 24 * 3600 * 1000;
 	
 	@Id
 	@Column(name="id")
@@ -77,6 +80,23 @@ public class DomainAd {
 	public void setLastSeen(Date lastSeen) {
 		this.lastSeen = lastSeen;
 	}
-
 	
+	public String getLastSeenStr() {
+		DateFormat format = new SimpleDateFormat("MM/dd/yy");
+		
+		if (lastSeen != null) {
+			return format.format(lastSeen);
+		} else return "No Date Found!";
+	}
+
+	public Long getDaysRunning() {
+		Long daysRunning = new Long(0);
+		
+		if (lastSeen != null && firstSeen != null) {
+			long msDiff= lastSeen.getTime() - firstSeen.getTime();
+			daysRunning = Math.round(msDiff / ((double)MILLIS_PER_DAY));
+		}
+		
+		return daysRunning;
+	}
 }
